@@ -23,25 +23,41 @@
   <circle cx="200" cy="132" r="12" fill="#FFBD2E"/>
   <circle cx="236" cy="132" r="12" fill="#28C840"/>
   <text x="280" y="140" fill="#1F2937" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="28" font-weight="700">EdgeClutch</text>
-  <text x="454" y="140" fill="#6B7280" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="24">macOS Trackpad Edge Continuation</text>
+  <text x="454" y="140" fill="#6B7280" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="22">macOS Trackpad Edge Continuation</text>
 
-  <rect x="160" y="208" width="398" height="360" rx="26" fill="url(#accent)"/>
-  <text x="198" y="274" fill="#FFFFFF" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="42" font-weight="700">Drag past the edge</text>
-  <text x="198" y="322" fill="#D9F2FF" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="24">Keep moving selections and drags even when</text>
-  <text x="198" y="356" fill="#D9F2FF" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="24">your finger reaches the trackpad boundary.</text>
+  <rect x="160" y="208" width="420" height="360" rx="26" fill="url(#accent)"/>
+  <text x="198" y="262" fill="#FFFFFF" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="36" font-weight="700">
+    <tspan x="198" dy="0">Drag past</tspan>
+    <tspan x="198" dy="42">the edge</tspan>
+  </text>
+  <text x="198" y="344" fill="#D9F2FF" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="23">
+    <tspan x="198" dy="0">Keep selections and drags moving</tspan>
+    <tspan x="198" dy="34">when your finger reaches the</tspan>
+    <tspan x="198" dy="34">trackpad boundary.</tspan>
+  </text>
 
-  <rect x="198" y="404" width="312" height="112" rx="18" fill="rgba(255,255,255,0.16)"/>
-  <text x="224" y="446" fill="#FFFFFF" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="24" font-weight="600">1-finger and 3-finger controls</text>
-  <text x="224" y="480" fill="#E7F7FF" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="20">Independent toggles in the menu bar app.</text>
+  <rect x="198" y="420" width="344" height="116" rx="18" fill="rgba(255,255,255,0.16)"/>
+  <text x="224" y="466" fill="#FFFFFF" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="20" font-weight="600">
+    <tspan x="224" dy="0">1-finger and 3-finger</tspan>
+    <tspan x="224" dy="30">controls</tspan>
+  </text>
+  <text x="224" y="522" fill="#E7F7FF" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="18">Independent toggles in the menu bar app.</text>
 
-  <rect x="600" y="208" width="440" height="168" rx="24" fill="#F8FAFC" stroke="#E5E7EB"/>
+  <rect x="620" y="208" width="400" height="180" rx="24" fill="#F8FAFC" stroke="#E5E7EB"/>
   <text x="636" y="256" fill="#111827" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="30" font-weight="700">Behavior</text>
-  <text x="636" y="302" fill="#374151" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="22">• Continues drag direction at trackpad edges</text>
-  <text x="636" y="336" fill="#374151" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="22">• Separate single-finger and three-finger switches</text>
+  <text x="656" y="302" fill="#374151" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="20">
+    <tspan x="656" dy="0">• Continues drag direction</tspan>
+    <tspan x="656" dy="30">  at trackpad edges</tspan>
+    <tspan x="656" dy="40">• Separate single-finger and</tspan>
+    <tspan x="656" dy="30">  three-finger switches</tspan>
+  </text>
 
-  <rect x="600" y="400" width="440" height="168" rx="24" fill="#F8FAFC" stroke="#E5E7EB"/>
+  <rect x="620" y="400" width="400" height="180" rx="24" fill="#F8FAFC" stroke="#E5E7EB"/>
   <text x="636" y="448" fill="#111827" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="30" font-weight="700">Runtime model</text>
-  <text x="636" y="494" fill="#374151" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="22">• Menu bar utility</text>
-  <text x="636" y="528" fill="#374151" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="22">• Accessibility + Input Monitoring permissions</text>
-  <text x="636" y="562" fill="#374151" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="22">• Built for macOS 13+</text>
+  <text x="656" y="494" fill="#374151" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="20">
+    <tspan x="656" dy="0">• Menu bar utility</tspan>
+    <tspan x="656" dy="40">• Accessibility + Input</tspan>
+    <tspan x="656" dy="30">  Monitoring permissions</tspan>
+    <tspan x="656" dy="40">• Built for macOS 13+</tspan>
+  </text>
 </svg>
