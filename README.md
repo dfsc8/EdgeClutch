@@ -21,6 +21,30 @@ Direct download: [EdgeClutch 1.0.1](https://github.com/dfsc8/EdgeClutch/releases
 - Latest release: [`v1.0.1`](https://github.com/dfsc8/EdgeClutch/releases/tag/v1.0.1)
 - Packaged app: [`EdgeClutch-1.0.1.zip`](https://github.com/dfsc8/EdgeClutch/releases/download/v1.0.1/EdgeClutch-1.0.1.zip)
 
+## Public distribution
+
+For public downloads, distribute a `zip` or `dmg`, not a raw `.app`.
+
+Build release artifacts from the Xcode output:
+
+```bash
+./scripts/build_release_artifacts.sh Debug
+```
+
+This produces:
+
+- `release/EdgeClutch.app`
+- `release/EdgeClutch-1.0.1.zip`
+- `release/EdgeClutch-1.0.1.dmg`
+
+If you have a `Developer ID Application` certificate and an Apple notary profile stored with `notarytool`, notarize the DMG:
+
+```bash
+./scripts/notarize_release.sh release/EdgeClutch-1.0.1.dmg <keychain-profile>
+```
+
+Then upload the notarized `zip` or `dmg` to GitHub Releases.
+
 ## What it does
 
 - Watches global left-button drag activity, including drag-to-select style interactions such as screenshot region selection.
@@ -116,4 +140,4 @@ It is still useful for quick packaging, but the Xcode project is the better day-
 - It targets the built-in trackpad path, not every possible external pointing device.
 - Edge continuation is heuristic and tuned for single-finger and three-finger sessions only.
 - The Xcode project is set up for stable local development signing (`Apple Development`), but you still need to select your own team in Xcode once.
-- There is no Developer ID signature or notarization yet.
+- There is no Developer ID signature or notarization configured in this repository by default.
