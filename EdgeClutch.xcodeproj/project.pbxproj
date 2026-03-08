@@ -1,0 +1,288 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000010000000000000001 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10001010000000000000001 /* AppKit.framework */; };
+		A10000020000000000000001 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10001020000000000000001 /* ApplicationServices.framework */; };
+		A10000030000000000000001 /* Sources/EdgeDragPrototype/EdgeDragPrototype.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000001 /* Sources/EdgeDragPrototype/EdgeDragPrototype.swift */; };
+		A10000040000000000000001 /* Sources/EdgeDragPrototype/AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002020000000000000001 /* Sources/EdgeDragPrototype/AppDelegate.swift */; };
+		A10000050000000000000001 /* Sources/EdgeDragPrototype/EventTapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002030000000000000001 /* Sources/EdgeDragPrototype/EventTapController.swift */; };
+		A10000060000000000000001 /* Sources/EdgeDragPrototype/TouchpadMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002040000000000000001 /* Sources/EdgeDragPrototype/TouchpadMonitor.swift */; };
+		A10000070000000000000001 /* Sources/EdgeDragPrototype/DragAssistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002050000000000000001 /* Sources/EdgeDragPrototype/DragAssistController.swift */; };
+		A10000080000000000000001 /* Sources/EdgeDragPrototype/StatusWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002060000000000000001 /* Sources/EdgeDragPrototype/StatusWindowController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A10001010000000000000001 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		A10001020000000000000001 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		A10001030000000000000001 /* EdgeClutch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EdgeClutch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10001040000000000000001 /* App/Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = App/Info.plist; sourceTree = SOURCE_ROOT; };
+		A10002010000000000000001 /* Sources/EdgeDragPrototype/EdgeDragPrototype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/EdgeDragPrototype/EdgeDragPrototype.swift; sourceTree = SOURCE_ROOT; };
+		A10002020000000000000001 /* Sources/EdgeDragPrototype/AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/EdgeDragPrototype/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
+		A10002030000000000000001 /* Sources/EdgeDragPrototype/EventTapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/EdgeDragPrototype/EventTapController.swift; sourceTree = SOURCE_ROOT; };
+		A10002040000000000000001 /* Sources/EdgeDragPrototype/TouchpadMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/EdgeDragPrototype/TouchpadMonitor.swift; sourceTree = SOURCE_ROOT; };
+		A10002050000000000000001 /* Sources/EdgeDragPrototype/DragAssistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/EdgeDragPrototype/DragAssistController.swift; sourceTree = SOURCE_ROOT; };
+		A10002060000000000000001 /* Sources/EdgeDragPrototype/StatusWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/EdgeDragPrototype/StatusWindowController.swift; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A10003010000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000010000000000000001 /* AppKit.framework in Frameworks */,
+				A10000020000000000000001 /* ApplicationServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A10004010000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A10004020000000000000001 /* App */,
+				A10004030000000000000001 /* Sources */,
+				A10004040000000000000001 /* Frameworks */,
+				A10004050000000000000001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A10004020000000000000001 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A10001040000000000000001 /* App/Info.plist */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		A10004030000000000000001 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				A10002010000000000000001 /* Sources/EdgeDragPrototype/EdgeDragPrototype.swift */,
+				A10002020000000000000001 /* Sources/EdgeDragPrototype/AppDelegate.swift */,
+				A10002050000000000000001 /* Sources/EdgeDragPrototype/DragAssistController.swift */,
+				A10002030000000000000001 /* Sources/EdgeDragPrototype/EventTapController.swift */,
+				A10002060000000000000001 /* Sources/EdgeDragPrototype/StatusWindowController.swift */,
+				A10002040000000000000001 /* Sources/EdgeDragPrototype/TouchpadMonitor.swift */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		A10004040000000000000001 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A10001010000000000000001 /* AppKit.framework */,
+				A10001020000000000000001 /* ApplicationServices.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A10004050000000000000001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A10001030000000000000001 /* EdgeClutch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A10005010000000000000001 /* EdgeClutch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A10006020000000000000001 /* Build configuration list for PBXNativeTarget "EdgeClutch" */;
+			buildPhases = (
+				A10003020000000000000001 /* Sources */,
+				A10003010000000000000001 /* Frameworks */,
+				A10003030000000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EdgeClutch;
+			productName = EdgeClutch;
+			productReference = A10001030000000000000001 /* EdgeClutch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A10006010000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					A10005010000000000000001 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+				};
+			};
+			buildConfigurationList = A10006030000000000000001 /* Build configuration list for PBXProject "EdgeClutch" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A10004010000000000000001;
+			productRefGroup = A10004050000000000000001 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A10005010000000000000001 /* EdgeClutch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A10003030000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A10003020000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000040000000000000001 /* Sources/EdgeDragPrototype/AppDelegate.swift in Sources */,
+				A10000070000000000000001 /* Sources/EdgeDragPrototype/DragAssistController.swift in Sources */,
+				A10000030000000000000001 /* Sources/EdgeDragPrototype/EdgeDragPrototype.swift in Sources */,
+				A10000050000000000000001 /* Sources/EdgeDragPrototype/EventTapController.swift in Sources */,
+				A10000080000000000000001 /* Sources/EdgeDragPrototype/StatusWindowController.swift in Sources */,
+				A10000060000000000000001 /* Sources/EdgeDragPrototype/TouchpadMonitor.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A10007010000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A10007020000000000000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		A10007030000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/xcode-build/$(CONFIGURATION)";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L7XDLM5HLG;
+				ENABLE_HARDENED_RUNTIME = NO;
+				EXECUTABLE_NAME = EdgeClutch;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aochen.edgeclutch;
+				PRODUCT_NAME = EdgeClutch;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A10007040000000000000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/xcode-build/$(CONFIGURATION)";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L7XDLM5HLG;
+				ENABLE_HARDENED_RUNTIME = NO;
+				EXECUTABLE_NAME = EdgeClutch;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aochen.edgeclutch;
+				PRODUCT_NAME = EdgeClutch;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A10006020000000000000001 /* Build configuration list for PBXNativeTarget "EdgeClutch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10007030000000000000001 /* Debug */,
+				A10007040000000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10006030000000000000001 /* Build configuration list for PBXProject "EdgeClutch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10007010000000000000001 /* Debug */,
+				A10007020000000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A10006010000000000000001 /* Project object */;
+}
