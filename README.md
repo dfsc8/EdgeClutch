@@ -2,9 +2,9 @@
 
 A macOS menu bar utility that keeps drag movement going after your finger reaches the trackpad edge.
 
-Current version: `1.0.1`
+Current version: `1.0.2`
 
-Direct download: [EdgeClutch 1.0.1](https://github.com/dfsc8/EdgeClutch/releases/tag/v1.0.1)
+Direct download: [EdgeClutch 1.0.2](https://github.com/dfsc8/EdgeClutch/releases/tag/v1.0.2)
 
 ![EdgeClutch preview](docs/assets/edgeclutch-preview.svg)
 
@@ -18,8 +18,8 @@ Direct download: [EdgeClutch 1.0.1](https://github.com/dfsc8/EdgeClutch/releases
 
 ## Release
 
-- Latest release: [`v1.0.1`](https://github.com/dfsc8/EdgeClutch/releases/tag/v1.0.1)
-- Packaged app: [`EdgeClutch-1.0.1.zip`](https://github.com/dfsc8/EdgeClutch/releases/download/v1.0.1/EdgeClutch-1.0.1.zip)
+- Latest release: [`v1.0.2`](https://github.com/dfsc8/EdgeClutch/releases/tag/v1.0.2)
+- Packaged app: [`EdgeClutch-1.0.2.zip`](https://github.com/dfsc8/EdgeClutch/releases/download/v1.0.2/EdgeClutch-1.0.2.zip)
 
 ## Public distribution
 
@@ -34,13 +34,13 @@ Build release artifacts from the Xcode output:
 This produces:
 
 - `release/EdgeClutch.app`
-- `release/EdgeClutch-1.0.1.zip`
-- `release/EdgeClutch-1.0.1.dmg`
+- `release/EdgeClutch-1.0.2.zip`
+- `release/EdgeClutch-1.0.2.dmg`
 
 If you have a `Developer ID Application` certificate and an Apple notary profile stored with `notarytool`, notarize the DMG:
 
 ```bash
-./scripts/notarize_release.sh release/EdgeClutch-1.0.1.dmg <keychain-profile>
+./scripts/notarize_release.sh release/EdgeClutch-1.0.2.dmg <keychain-profile>
 ```
 
 Then upload the notarized `zip` or `dmg` to GitHub Releases.
