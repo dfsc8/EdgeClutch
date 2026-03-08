@@ -2,6 +2,10 @@
 
 A macOS menu bar utility that keeps drag movement going after your finger reaches the trackpad edge.
 
+Current version: `1.0.1`
+
+Direct download: [EdgeClutch 1.0.1](https://github.com/dfsc8/EdgeClutch/releases/tag/v1.0.1)
+
 ![EdgeClutch preview](docs/assets/edgeclutch-preview.svg)
 
 ## Highlights
@@ -11,6 +15,11 @@ A macOS menu bar utility that keeps drag movement going after your finger reache
 - Independent one-finger and three-finger switches
 - Explicitly blocks two-finger continuation
 - Runs as a lightweight menu bar app
+
+## Release
+
+- Latest release: [`v1.0.1`](https://github.com/dfsc8/EdgeClutch/releases/tag/v1.0.1)
+- Packaged app: [`EdgeClutch-1.0.1.zip`](https://github.com/dfsc8/EdgeClutch/releases/download/v1.0.1/EdgeClutch-1.0.1.zip)
 
 ## What it does
 
