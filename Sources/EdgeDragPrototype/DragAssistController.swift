@@ -26,6 +26,8 @@ final class DragAssistController: NSObject {
     private let directionMemory: CFTimeInterval = 0.18
     private let touchFreshness: CFTimeInterval = 0.12
     private let minimumVelocity: CGFloat = 0.0015
+    private let axisDirectionThreshold: CGFloat = 0.2
+    private let inwardStopVelocityThreshold: CGFloat = 0.00075
     private let minimumCursorMotionForGestureDrag: CGFloat = 0.5
     private let dragVelocityMemory: CFTimeInterval = 0.25
     private let assistHoldDuration: CFTimeInterval = 0.14
@@ -98,7 +100,7 @@ final class DragAssistController: NSObject {
             beginDragTracking(at: point, isDraggedEvent: false)
             pointerState.inferredGestureDrag = false
             pointerState.continuationMode = .mouseDrag
-            assistState.activeVector = .zero
+            clearAxisContinuations()
         case .leftMouseDragged(let point):
             if !pointerState.isButtonDown {
                 beginDragTracking(at: point, isDraggedEvent: true)
@@ -164,10 +166,7 @@ final class DragAssistController: NSObject {
         assistState.currentTouchCount = sample.touchCount
 
         guard sample.touchCount > 0 else {
-            if sample.timestamp - assistState.lastActiveVectorTimestamp > assistHoldDuration {
-                assistState.activeVector = .zero
-                assistState.continuationVelocity = .zero
-            }
+            holdContinuationsIfNeeded(at: sample.timestamp)
             if pointerState.inferredGestureDrag {
                 pointerState.isButtonDown = false
                 pointerState.hasDragged = false
@@ -177,12 +176,10 @@ final class DragAssistController: NSObject {
         }
 
         guard supportsTouchCount(sample.touchCount) else {
-            if sample.timestamp - assistState.lastActiveVectorTimestamp > assistHoldDuration {
-                assistState.activeVector = .zero
-                assistState.continuationVelocity = .zero
-            }
             if sample.touchCount == 2 || sample.touchCount > 3 {
                 clearContinuationState()
+            } else {
+                holdContinuationsIfNeeded(at: sample.timestamp)
             }
             return
         }
@@ -201,25 +198,24 @@ final class DragAssistController: NSObject {
         }
 
         let pointerDirection = rememberedPointerDirection(at: CACurrentMediaTime())
-        let candidate = assistVector(
-            for: sample,
+        let now = CACurrentMediaTime()
+        let xDecision = axisDecision(
+            for: .x,
+            sample: sample,
+            liveDirection: liveDirection,
+            rememberedDirection: rememberedDirection,
+            pointerDirection: pointerDirection
+        )
+        let yDecision = axisDecision(
+            for: .y,
+            sample: sample,
+            liveDirection: liveDirection,
             rememberedDirection: rememberedDirection,
             pointerDirection: pointerDirection
         )
 
-        if candidate != .zero {
-            if assistState.activeVector == .zero {
-                assistState.continuationVelocity = seedContinuationVelocity(for: candidate, now: CACurrentMediaTime())
-            }
-            assistState.activeVector = candidate
-            assistState.lastActiveVector = candidate
-            assistState.lastActiveVectorTimestamp = sample.timestamp
-        } else if sample.timestamp - assistState.lastActiveVectorTimestamp <= assistHoldDuration {
-            assistState.activeVector = assistState.lastActiveVector
-        } else {
-            assistState.activeVector = .zero
-            assistState.continuationVelocity = .zero
-        }
+        applyAxisDecision(xDecision, to: .x, timestamp: sample.timestamp, now: now)
+        applyAxisDecision(yDecision, to: .y, timestamp: sample.timestamp, now: now)
     }
 
     @objc private func handleTickTimer() {
@@ -228,7 +224,7 @@ final class DragAssistController: NSObject {
 
     private func tick() {
         guard pointerState.isButtonDown, pointerState.hasDragged else {
-            assistState.activeVector = .zero
+            clearAxisContinuations()
             pointerState.lastTickTime = CACurrentMediaTime()
             return
         }
@@ -239,7 +235,7 @@ final class DragAssistController: NSObject {
 
         guard dt > 0,
               now - assistState.lastTouchTimestamp <= touchFreshness,
-              assistState.activeVector != .zero
+              assistState.hasActiveAxes
         else {
             return
         }
@@ -272,7 +268,7 @@ final class DragAssistController: NSObject {
             pointerState.lastDragSampleTime = now
         }
 
-        guard dt > 0, assistState.activeVector == .zero else {
+        guard dt > 0, !assistState.hasActiveAxes else {
             return
         }
 
@@ -325,59 +321,174 @@ final class DragAssistController: NSObject {
         pointerState.continuationMode = .mouseDrag
         pointerState.lastObservedDragVelocity = .zero
         pointerState.lastObservedDragTimestamp = 0
-        assistState.activeVector = .zero
-        assistState.continuationVelocity = .zero
+        clearAxisContinuations()
     }
 
     private func rememberedPointerDirection(at now: CFTimeInterval) -> CGVector {
         normalizedVector(for: rememberedDragVelocity(at: now))
     }
 
-    private func seedContinuationVelocity(for vector: CGVector, now: CFTimeInterval) -> CGVector {
-        let rememberedVelocity = rememberedDragVelocity(at: now)
-        if rememberedVelocity != .zero {
-            return clampVelocityMagnitude(CGVector(
-                dx: rememberedVelocity.dx * continuationVelocityScale,
-                dy: rememberedVelocity.dy * continuationVelocityScale
-            ), maximum: maximumContinuationPixelsPerSecond)
+    private func seedContinuationVelocityComponent(for axis: Axis, edgeSide: EdgeSide, now: CFTimeInterval) -> CGFloat {
+        let rememberedComponent = axis.component(of: rememberedDragVelocity(at: now))
+        let outwardSign = edgeSide.outwardSign
+
+        if rememberedComponent != 0, rememberedComponent.sign == outwardSign {
+            return min(abs(rememberedComponent) * continuationVelocityScale, maximumContinuationPixelsPerSecond) * outwardSign
         }
 
-        return clampVelocityMagnitude(CGVector(
-            dx: fallbackVelocityInPixels(for: vector.dx),
-            dy: fallbackVelocityInPixels(for: vector.dy)
-        ), maximum: maximumContinuationPixelsPerSecond)
+        return min(fallbackPixelsPerSecond, maximumContinuationPixelsPerSecond) * outwardSign
     }
 
-    private func assistVector(
-        for sample: TouchpadMonitor.Sample,
+    private func axisDecision(
+        for axis: Axis,
+        sample: TouchpadMonitor.Sample,
+        liveDirection: CGVector,
         rememberedDirection: CGVector,
         pointerDirection: CGVector
-    ) -> CGVector {
-        var output = CGVector.zero
-
-        let liveDirection = normalizedVector(for: sample.velocity)
-        let direction: CGVector
-        if liveDirection != .zero {
-            direction = liveDirection
-        } else if rememberedDirection != .zero {
-            direction = rememberedDirection
-        } else {
-            direction = pointerDirection
+    ) -> AxisContinuationDecision {
+        let currentEdge = touchedEdge(for: axis, sample: sample)
+        guard let edgeSide = currentEdge.edgeSide else {
+            return .hold
         }
 
-        if sample.minTouch.x <= edgeZone, direction.dx < -0.2 {
-            output.dx = -edgeStrength(position: sample.minTouch.x, velocity: sample.velocity.dx, edge: .minimum)
-        } else if sample.maxTouch.x >= 1 - edgeZone, direction.dx > 0.2 {
-            output.dx = edgeStrength(position: sample.maxTouch.x, velocity: sample.velocity.dx, edge: .maximum)
+        let directionComponent = preferredDirectionComponent(
+            live: axis.component(of: liveDirection),
+            remembered: axis.component(of: rememberedDirection),
+            pointer: axis.component(of: pointerDirection)
+        )
+        let velocityComponent = axis.component(of: sample.velocity)
+
+        if isOutward(directionComponent, for: edgeSide, threshold: axisDirectionThreshold) {
+            return .activate(edgeSide: edgeSide, strength: edgeStrength(position: currentEdge.position, velocity: velocityComponent, edge: edgeSide))
         }
 
-        if sample.minTouch.y <= edgeZone, direction.dy < -0.2 {
-            output.dy = -edgeStrength(position: sample.minTouch.y, velocity: sample.velocity.dy, edge: .minimum)
-        } else if sample.maxTouch.y >= 1 - edgeZone, direction.dy > 0.2 {
-            output.dy = edgeStrength(position: sample.maxTouch.y, velocity: sample.velocity.dy, edge: .maximum)
+        if isInward(velocityComponent, for: edgeSide, threshold: inwardStopVelocityThreshold)
+            || isInward(directionComponent, for: edgeSide, threshold: axisDirectionThreshold) {
+            return .stop
         }
 
-        return output
+        return .hold
+    }
+
+    private func applyAxisDecision(_ decision: AxisContinuationDecision, to axis: Axis, timestamp: CFTimeInterval, now: CFTimeInterval) {
+        var state = axisState(for: axis)
+
+        switch decision {
+        case .activate(let edgeSide, let strength):
+            let shouldSeedVelocity = !state.isActive || state.edgeSide != edgeSide || axis.component(of: assistState.continuationVelocity) == 0
+            state.edgeSide = edgeSide
+            state.strength = strength
+            state.lastActiveTimestamp = timestamp
+            setAxisState(state, for: axis)
+
+            if shouldSeedVelocity {
+                setContinuationVelocityComponent(
+                    seedContinuationVelocityComponent(for: axis, edgeSide: edgeSide, now: now),
+                    for: axis
+                )
+            }
+        case .hold:
+            if state.isActive, timestamp - state.lastActiveTimestamp <= assistHoldDuration {
+                return
+            }
+            clearAxisContinuation(axis)
+        case .stop:
+            clearAxisContinuation(axis)
+        }
+    }
+
+    private func holdContinuationsIfNeeded(at timestamp: CFTimeInterval) {
+        if assistState.xAxis.isActive, timestamp - assistState.xAxis.lastActiveTimestamp > assistHoldDuration {
+            clearAxisContinuation(.x)
+        }
+
+        if assistState.yAxis.isActive, timestamp - assistState.yAxis.lastActiveTimestamp > assistHoldDuration {
+            clearAxisContinuation(.y)
+        }
+    }
+
+    private func clearAxisContinuations() {
+        clearAxisContinuation(.x)
+        clearAxisContinuation(.y)
+    }
+
+    private func clearAxisContinuation(_ axis: Axis) {
+        var state = axisState(for: axis)
+        state.clear()
+        setAxisState(state, for: axis)
+        setContinuationVelocityComponent(0, for: axis)
+    }
+
+    private func axisState(for axis: Axis) -> AxisContinuationState {
+        switch axis {
+        case .x:
+            return assistState.xAxis
+        case .y:
+            return assistState.yAxis
+        }
+    }
+
+    private func setAxisState(_ state: AxisContinuationState, for axis: Axis) {
+        switch axis {
+        case .x:
+            assistState.xAxis = state
+        case .y:
+            assistState.yAxis = state
+        }
+    }
+
+    private func setContinuationVelocityComponent(_ value: CGFloat, for axis: Axis) {
+        switch axis {
+        case .x:
+            assistState.continuationVelocity.dx = value
+        case .y:
+            assistState.continuationVelocity.dy = value
+        }
+    }
+
+    private func touchedEdge(for axis: Axis, sample: TouchpadMonitor.Sample) -> AxisEdgeSample {
+        switch axis {
+        case .x:
+            if sample.minTouch.x <= edgeZone {
+                return AxisEdgeSample(edgeSide: .minimum, position: sample.minTouch.x)
+            }
+            if sample.maxTouch.x >= 1 - edgeZone {
+                return AxisEdgeSample(edgeSide: .maximum, position: sample.maxTouch.x)
+            }
+        case .y:
+            if sample.minTouch.y <= edgeZone {
+                return AxisEdgeSample(edgeSide: .minimum, position: sample.minTouch.y)
+            }
+            if sample.maxTouch.y >= 1 - edgeZone {
+                return AxisEdgeSample(edgeSide: .maximum, position: sample.maxTouch.y)
+            }
+        }
+
+        return AxisEdgeSample(edgeSide: nil, position: 0)
+    }
+
+    private func preferredDirectionComponent(live: CGFloat, remembered: CGFloat, pointer: CGFloat) -> CGFloat {
+        if abs(live) >= axisDirectionThreshold {
+            return live
+        }
+
+        if abs(remembered) >= axisDirectionThreshold {
+            return remembered
+        }
+
+        if abs(pointer) >= axisDirectionThreshold {
+            return pointer
+        }
+
+        return 0
+    }
+
+    private func isOutward(_ component: CGFloat, for edgeSide: EdgeSide, threshold: CGFloat) -> Bool {
+        component * edgeSide.outwardSign >= threshold
+    }
+
+    private func isInward(_ component: CGFloat, for edgeSide: EdgeSide, threshold: CGFloat) -> Bool {
+        component * edgeSide.outwardSign <= -threshold
     }
 
     private func edgeStrength(position: CGFloat, velocity: CGFloat, edge: EdgeSide) -> CGFloat {
@@ -400,14 +511,6 @@ final class DragAssistController: NSObject {
         }
 
         return CGVector(dx: vector.dx / magnitude, dy: vector.dy / magnitude)
-    }
-
-    private func fallbackVelocityInPixels(for axisStrength: CGFloat) -> CGFloat {
-        guard axisStrength != 0 else {
-            return 0
-        }
-
-        return min(fallbackPixelsPerSecond, maximumContinuationPixelsPerSecond) * axisStrength.sign
     }
 
     private func clampVelocityMagnitude(_ velocity: CGVector, maximum: CGFloat) -> CGVector {
@@ -476,14 +579,17 @@ private struct PointerState {
 }
 
 private struct AssistState {
-    var activeVector = CGVector.zero
     var continuationVelocity = CGVector.zero
     var lastDirection = CGVector.zero
     var lastDirectionTimestamp: CFTimeInterval = 0
     var lastTouchTimestamp: CFTimeInterval = 0
     var currentTouchCount = 0
-    var lastActiveVector = CGVector.zero
-    var lastActiveVectorTimestamp: CFTimeInterval = 0
+    var xAxis = AxisContinuationState()
+    var yAxis = AxisContinuationState()
+
+    var hasActiveAxes: Bool {
+        xAxis.isActive || yAxis.isActive
+    }
 }
 
 private enum ContinuationMode {
@@ -491,9 +597,59 @@ private enum ContinuationMode {
     case cursorMove
 }
 
+private enum Axis {
+    case x
+    case y
+
+    func component(of vector: CGVector) -> CGFloat {
+        switch self {
+        case .x:
+            return vector.dx
+        case .y:
+            return vector.dy
+        }
+    }
+}
+
 private enum EdgeSide {
     case minimum
     case maximum
+
+    var outwardSign: CGFloat {
+        switch self {
+        case .minimum:
+            return -1
+        case .maximum:
+            return 1
+        }
+    }
+}
+
+private enum AxisContinuationDecision {
+    case activate(edgeSide: EdgeSide, strength: CGFloat)
+    case hold
+    case stop
+}
+
+private struct AxisEdgeSample {
+    let edgeSide: EdgeSide?
+    let position: CGFloat
+}
+
+private struct AxisContinuationState {
+    var edgeSide: EdgeSide?
+    var strength: CGFloat = 0
+    var lastActiveTimestamp: CFTimeInterval = 0
+
+    var isActive: Bool {
+        edgeSide != nil && strength > 0
+    }
+
+    mutating func clear() {
+        edgeSide = nil
+        strength = 0
+        lastActiveTimestamp = 0
+    }
 }
 
 private extension CGPoint {
