@@ -1,6 +1,16 @@
-# EdgeDragPrototype
+# EdgeClutch
 
-A macOS menu bar utility that imitates the Windows trackpad behavior where a drag can keep moving after your finger hits the trackpad edge.
+A macOS menu bar utility that keeps drag movement going after your finger reaches the trackpad edge.
+
+![EdgeClutch preview](docs/assets/edgeclutch-preview.svg)
+
+## Highlights
+
+- Continues drag direction when your finger hits the trackpad edge
+- Works with drag-to-select interactions such as screenshot region selection
+- Independent one-finger and three-finger switches
+- Explicitly blocks two-finger continuation
+- Runs as a lightweight menu bar app
 
 ## What it does
 
@@ -8,6 +18,15 @@ A macOS menu bar utility that imitates the Windows trackpad behavior where a dra
 - Reads raw built-in trackpad contacts from `MultitouchSupport.framework`.
 - When a drag is already in progress and a finger stays pressed against a trackpad edge, it synthesizes additional `leftMouseDragged` events in the same direction.
 - Stops assisting as soon as the drag ends or the finger leaves the edge zone.
+
+## Demo
+
+Typical flow:
+
+1. Start dragging a file, selection box, or screenshot region.
+2. Reach the edge of the built-in trackpad.
+3. Keep pushing in the same direction.
+4. EdgeClutch continues the drag instead of forcing you to lift and reposition immediately.
 
 ## Why this is a menu bar app instead of a plugin
 
@@ -86,6 +105,6 @@ It is still useful for quick packaging, but the Xcode project is the better day-
 ## Current limitations
 
 - It targets the built-in trackpad path, not every possible external pointing device.
-- Edge continuation is heuristic and tuned for one-finger drag sessions; complex multi-finger gestures are ignored.
+- Edge continuation is heuristic and tuned for single-finger and three-finger sessions only.
 - The Xcode project is set up for stable local development signing (`Apple Development`), but you still need to select your own team in Xcode once.
 - There is no Developer ID signature or notarization yet.
