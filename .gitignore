@@ -4,6 +4,7 @@
 /\.xcode-derived
 /xcode-build
 /Packages
+/release
 xcuserdata/
 DerivedData/
 .swiftpm/configuration/registries.json

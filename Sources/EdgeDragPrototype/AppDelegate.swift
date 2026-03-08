@@ -227,7 +227,7 @@ enum PermissionController {
 }
 
 private enum AppMetadata {
-    static let version = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "1.0"
+    static let version = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "1.0.1"
     static let author = "Ao Chen"
 }
 
