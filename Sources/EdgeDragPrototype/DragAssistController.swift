@@ -21,6 +21,7 @@ final class DragAssistController: NSObject {
     private var ticker: Timer?
 
     private let tickInterval: TimeInterval = 1.0 / 120.0
+    private let maximumTickDuration: TimeInterval = 1.0 / 45.0
     private let edgeZone: CGFloat = 0.065
     private let directionMemory: CFTimeInterval = 0.18
     private let touchFreshness: CFTimeInterval = 0.12
@@ -30,6 +31,8 @@ final class DragAssistController: NSObject {
     private let assistHoldDuration: CFTimeInterval = 0.14
     private let fallbackPixelsPerSecond: CGFloat = 720
     private let continuationVelocityScale: CGFloat = 1.0
+    private let maximumContinuationPixelsPerSecond: CGFloat = 820
+    private let observedVelocitySmoothing: CGFloat = 0.35
     private var gestureSettings = GestureSettings(singleFingerEnabled: true, threeFingerEnabled: true)
 
     override init() {
@@ -231,7 +234,7 @@ final class DragAssistController: NSObject {
         }
 
         let now = CACurrentMediaTime()
-        let dt = max(0, now - pointerState.lastTickTime)
+        let dt = min(max(0, now - pointerState.lastTickTime), maximumTickDuration)
         pointerState.lastTickTime = now
 
         guard dt > 0,
@@ -282,7 +285,17 @@ final class DragAssistController: NSObject {
             return
         }
 
-        pointerState.lastObservedDragVelocity = velocity
+        let smoothedVelocity: CGVector
+        if pointerState.lastObservedDragVelocity == .zero {
+            smoothedVelocity = velocity
+        } else {
+            smoothedVelocity = CGVector(
+                dx: pointerState.lastObservedDragVelocity.dx * (1 - observedVelocitySmoothing) + velocity.dx * observedVelocitySmoothing,
+                dy: pointerState.lastObservedDragVelocity.dy * (1 - observedVelocitySmoothing) + velocity.dy * observedVelocitySmoothing
+            )
+        }
+
+        pointerState.lastObservedDragVelocity = clampVelocityMagnitude(smoothedVelocity, maximum: maximumContinuationPixelsPerSecond)
         pointerState.lastObservedDragTimestamp = now
     }
 
@@ -323,16 +336,16 @@ final class DragAssistController: NSObject {
     private func seedContinuationVelocity(for vector: CGVector, now: CFTimeInterval) -> CGVector {
         let rememberedVelocity = rememberedDragVelocity(at: now)
         if rememberedVelocity != .zero {
-            return CGVector(
+            return clampVelocityMagnitude(CGVector(
                 dx: rememberedVelocity.dx * continuationVelocityScale,
                 dy: rememberedVelocity.dy * continuationVelocityScale
-            )
+            ), maximum: maximumContinuationPixelsPerSecond)
         }
 
-        return CGVector(
+        return clampVelocityMagnitude(CGVector(
             dx: fallbackVelocityInPixels(for: vector.dx),
             dy: fallbackVelocityInPixels(for: vector.dy)
-        )
+        ), maximum: maximumContinuationPixelsPerSecond)
     }
 
     private func assistVector(
@@ -394,7 +407,17 @@ final class DragAssistController: NSObject {
             return 0
         }
 
-        return fallbackPixelsPerSecond * axisStrength.sign
+        return min(fallbackPixelsPerSecond, maximumContinuationPixelsPerSecond) * axisStrength.sign
+    }
+
+    private func clampVelocityMagnitude(_ velocity: CGVector, maximum: CGFloat) -> CGVector {
+        let magnitude = hypot(velocity.dx, velocity.dy)
+        guard magnitude > 0, magnitude > maximum else {
+            return velocity
+        }
+
+        let scale = maximum / magnitude
+        return CGVector(dx: velocity.dx * scale, dy: velocity.dy * scale)
     }
 
     private func postContinuationEvent(to point: CGPoint, mode: ContinuationMode) {
