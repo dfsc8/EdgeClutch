@@ -1,56 +1,42 @@
 <svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="80" y1="60" x2="1120" y2="660" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#F4F7FB"/>
-      <stop offset="1" stop-color="#E9EEF7"/>
+    <linearGradient id="bg" x1="120" y1="80" x2="1080" y2="640" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEF4FB"/>
+      <stop offset="1" stop-color="#E3EBF6"/>
     </linearGradient>
-    <linearGradient id="hero" x1="138" y1="170" x2="650" y2="590" gradientUnits="userSpaceOnUse">
+    <linearGradient id="hero" x1="150" y1="190" x2="760" y2="620" gradientUnits="userSpaceOnUse">
       <stop stop-color="#2EA7FF"/>
-      <stop offset="1" stop-color="#0F7F9A"/>
+      <stop offset="1" stop-color="#117A8B"/>
     </linearGradient>
-    <filter id="shadow" x="36" y="68" width="1128" height="588" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#7C8DA6" flood-opacity="0.16"/>
+    <filter id="shadow" x="44" y="84" width="1112" height="560" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#70839E" flood-opacity="0.18"/>
     </filter>
   </defs>
 
-  <rect width="1200" height="720" rx="32" fill="url(#bg)"/>
+  <rect width="1200" height="720" rx="36" fill="url(#bg)"/>
 
   <g filter="url(#shadow)">
-    <rect x="60" y="92" width="1080" height="540" rx="30" fill="#FCFDFE"/>
+    <rect x="72" y="108" width="1056" height="512" rx="32" fill="#FBFCFE"/>
   </g>
 
-  <rect x="60" y="92" width="1080" height="78" rx="30" fill="#F5F7FA"/>
-  <circle cx="112" cy="131" r="14" fill="#FF5F57"/>
-  <circle cx="160" cy="131" r="14" fill="#FFBD2E"/>
-  <circle cx="208" cy="131" r="14" fill="#28C840"/>
-  <text x="262" y="144" fill="#111827" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="34" font-weight="700">EdgeClutch</text>
-  <text x="488" y="144" fill="#667085" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="24">Trackpad edge continuation for macOS</text>
+  <rect x="72" y="108" width="1056" height="84" rx="32" fill="#F4F6F9"/>
+  <circle cx="128" cy="150" r="14" fill="#FF5F57"/>
+  <circle cx="176" cy="150" r="14" fill="#FFBD2E"/>
+  <circle cx="224" cy="150" r="14" fill="#28C840"/>
+  <text x="278" y="164" fill="#111827" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="36" font-weight="700">EdgeClutch</text>
 
-  <rect x="108" y="214" width="510" height="410" rx="28" fill="url(#hero)"/>
+  <rect x="124" y="234" width="952" height="330" rx="32" fill="url(#hero)"/>
 
-  <text x="154" y="304" fill="#FFFFFF" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="52" font-weight="700">
-    <tspan x="154" dy="0">Keep drag</tspan>
-    <tspan x="154" dy="58">moving</tspan>
+  <text x="180" y="336" fill="#FFFFFF" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="72" font-weight="700">
+    <tspan x="180" dy="0">Keep drag</tspan>
+    <tspan x="180" dy="82">moving</tspan>
   </text>
 
-  <text x="154" y="418" fill="#DDF4FF" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="28" font-weight="500">
-    <tspan x="154" dy="0">When your finger hits</tspan>
-    <tspan x="154" dy="40">the trackpad edge,</tspan>
-    <tspan x="154" dy="40">the drag keeps going.</tspan>
+  <text x="184" y="492" fill="#DDF4FF" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="34" font-weight="500">
+    <tspan x="184" dy="0">Trackpad edge continuation for macOS</tspan>
   </text>
 
-  <rect x="154" y="506" width="316" height="70" rx="18" fill="rgba(255,255,255,0.16)"/>
-  <text x="182" y="551" fill="#FFFFFF" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="28" font-weight="700">1-finger / 3-finger</text>
-
-  <rect x="664" y="214" width="428" height="118" rx="24" fill="#F8FAFC" stroke="#E6EAF0"/>
-  <text x="700" y="260" fill="#0F172A" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="24" font-weight="700">What it does</text>
-  <text x="700" y="304" fill="#475467" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="26">Continues drag at trackpad edges</text>
-
-  <rect x="664" y="354" width="428" height="118" rx="24" fill="#F8FAFC" stroke="#E6EAF0"/>
-  <text x="700" y="400" fill="#0F172A" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Controls</text>
-  <text x="700" y="444" fill="#475467" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="26">Independent toggles for 1 and 3 fingers</text>
-
-  <rect x="664" y="494" width="428" height="118" rx="24" fill="#F8FAFC" stroke="#E6EAF0"/>
-  <text x="700" y="540" fill="#0F172A" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Runtime</text>
-  <text x="700" y="584" fill="#475467" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="26">Menu bar app with macOS permissions</text>
+  <rect x="124" y="584" width="952" height="72" rx="22" fill="#F8FAFC"/>
+  <text x="174" y="630" fill="#334155" font-family="SF Pro Display, Helvetica, Arial, sans-serif" font-size="30" font-weight="700">1-finger / 3-finger</text>
+  <text x="632" y="630" fill="#64748B" font-family="SF Pro Text, Helvetica, Arial, sans-serif" font-size="28" font-weight="500">menu bar utility</text>
 </svg>
